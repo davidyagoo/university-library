@@ -1,7 +1,6 @@
-import { Client as WorkflowClient } from '@upstash/workflow'
 import config from './config'
+import { Client } from '@upstash/workflow'
 
-export const workflowClient = new WorkflowClient({
-  baseUrl: config.env.upstash.qstashUrl,
+export const workflowClient = new Client({
   token: config.env.upstash.qstashToken,
 })
