@@ -35,19 +35,17 @@ const getUserState = async (email: string): Promise<UserState> => {
 export const { POST } = serve<InitialData>(async (context) => {
   const { email, fullName } = context.requestPayload
 
-  await context.run('new-signup', async () => {
-    const { status, body } = await context.api.resend.call('Call Resend', {
-      token: config.env.resendToken!,
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: {
-        from: 'Acme <onboarding@welcome.micropo.online>',
-        to: [email],
-        subject: 'Welcome to the platform',
-        html: `<p>Welcome ${fullName}</p>`,
-      },
-    })
+  const { status, body } = await context.api.resend.call('Call Resend', {
+    token: config.env.resendToken!,
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: {
+      from: 'Acme <onboarding@welcome.micropo.online>',
+      to: [email],
+      subject: 'Welcome to the platform',
+      html: `<p>Welcome ${fullName}</p>`,
+    },
   })
 
   await context.sleep('wait-for-3-days', 60 * 60 * 24 * 3)
